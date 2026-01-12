@@ -7,13 +7,12 @@ A production-ready template for building fast, modern websites with Astro's isla
 - **Astro 5** - Island architecture for optimal performance
 - **React 19** - For interactive components
 - **Tailwind CSS v4** - Utility-first CSS framework
-- **DaisyUI** - Component library for Tailwind
 - **Cloudflare Workers** - Edge deployment
 
 ## Features
 
 - ✅ Island architecture (minimal JavaScript)
-- ✅ Tailwind CSS v4 + DaisyUI theming
+- ✅ Tailwind CSS v4 with custom theme
 - ✅ React components with `client:visible` directive
 - ✅ TypeScript support
 - ✅ Cloudflare Workers deployment ready
@@ -79,13 +78,13 @@ Replace `{project-code}` in these files:
 
 ### 2. Customize theme
 
-Edit `src/styles/global.css` to change DaisyUI theme colors:
+Edit `src/styles/global.css` to change theme colors:
 
 ```css
-'custom-light': {
-  'primary': '#7C9A82',    /* Your brand color */
-  'secondary': '#D4A574',
-  /* ... */
+@theme {
+  --color-primary: #7C9A82;    /* Your brand color */
+  --color-secondary: #D4A574;
+  --color-accent: #A8D8B9;
 }
 ```
 
