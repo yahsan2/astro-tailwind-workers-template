@@ -1,14 +1,14 @@
 {
-  "name": "@project/{project-code}",
+  "name": "@project/__PROJECT_CODE__",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "wrangler dev",
     "astro": "astro",
-    "deploy": "npm run build && wrangler pages deploy dist"
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

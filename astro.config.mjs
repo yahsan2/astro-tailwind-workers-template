@@ -5,16 +5,15 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://{project-code}.example.com',
-  output: 'static',
-  adapter: cloudflare(),
+  site: 'https://__PROJECT_CODE__.example.com',
+  output: 'server',
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
-  },
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-    },
   },
 });

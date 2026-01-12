@@ -70,7 +70,7 @@ npm run deploy
 
 ### 1. Update project-code placeholders
 
-Replace `{project-code}` in these files:
+Replace `__PROJECT_CODE__` in these files:
 - `package.json` - name field
 - `wrangler.toml` - name field
 - `astro.config.mjs` - site field

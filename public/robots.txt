@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://{project-code}.example.com/sitemap-index.xml
+Sitemap: https://__PROJECT_CODE__.example.com/sitemap-index.xml
