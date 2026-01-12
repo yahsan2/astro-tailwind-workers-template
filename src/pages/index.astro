@@ -2,20 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const pageTitle = 'ホーム';
-const pageDescription = 'Astro + Tailwind CSS + DaisyUI テンプレートサイト';
+const pageDescription = 'Astro + Tailwind CSS テンプレートサイト';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
   <!-- Hero Section -->
-  <section class="hero min-h-screen bg-gradient-to-r from-primary to-secondary">
-    <div class="hero-content text-center text-white">
-      <div class="max-w-md">
-        <h1 class="text-5xl font-bold">Hello, World!</h1>
-        <p class="py-6">
-          Astro + React + Tailwind CSS v4 + DaisyUI のテンプレートです。
+  <section class="min-h-screen bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+    <div class="text-center text-white px-4">
+      <div class="max-w-md mx-auto">
+        <h1 class="text-5xl font-bold mb-6">Hello, World!</h1>
+        <p class="text-lg mb-8">
+          Astro + React + Tailwind CSS v4 のテンプレートです。
           このページを編集して、あなたのサイトを作りましょう。
         </p>
-        <button class="btn btn-lg bg-white text-primary hover:bg-base-100">
+        <button class="px-8 py-3 bg-white text-primary rounded-lg font-semibold hover:bg-gray-100 transition-colors">
           はじめる
         </button>
       </div>
@@ -23,27 +23,21 @@ const pageDescription = 'Astro + Tailwind CSS + DaisyUI テンプレートサイ
   </section>
 
   <!-- Features Section -->
-  <section class="py-20 bg-base-100">
+  <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-12">Features</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body">
-            <h3 class="card-title">Astro 5</h3>
-            <p>高速なサイト生成とアイランドアーキテクチャ</p>
-          </div>
+        <div class="bg-white rounded-lg shadow-xl p-6">
+          <h3 class="text-xl font-bold mb-3">Astro 5</h3>
+          <p class="text-gray-600">高速なサイト生成とアイランドアーキテクチャ</p>
         </div>
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body">
-            <h3 class="card-title">Tailwind CSS v4</h3>
-            <p>ユーティリティファーストのCSSフレームワーク</p>
-          </div>
+        <div class="bg-white rounded-lg shadow-xl p-6">
+          <h3 class="text-xl font-bold mb-3">Tailwind CSS v4</h3>
+          <p class="text-gray-600">ユーティリティファーストのCSSフレームワーク</p>
         </div>
-        <div class="card bg-base-200 shadow-xl">
-          <div class="card-body">
-            <h3 class="card-title">DaisyUI</h3>
-            <p>美しいコンポーネントライブラリ</p>
-          </div>
+        <div class="bg-white rounded-lg shadow-xl p-6">
+          <h3 class="text-xl font-bold mb-3">React 19</h3>
+          <p class="text-gray-600">インタラクティブなコンポーネント</p>
         </div>
       </div>
     </div>

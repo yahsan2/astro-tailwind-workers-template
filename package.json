@@ -26,7 +26,6 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
-    "daisyui": "^5.5.14",
     "typescript": "^5.9.3"
   }
 }
