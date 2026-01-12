@@ -1,0 +1,134 @@
+---
+import { studioInfo } from '../../data/studio-info';
+import { Phone, Mail, MapPin, Clock, Calendar } from 'lucide-react';
+
+// 曜日の日本語表示マッピング
+const dayNames: Record<string, string> = {
+  monday: '月',
+  tuesday: '火',
+  wednesday: '水',
+  thursday: '木',
+  friday: '金',
+  saturday: '土',
+  sunday: '日',
+};
+
+// 営業時間のグループ化 (同じ時間帯の曜日をまとめる)
+const groupedHours = studioInfo.businessHours.reduce((acc, hours) => {
+  const key = `${hours.open}-${hours.close}`;
+  if (!acc[key]) {
+    acc[key] = [];
+  }
+  acc[key].push(dayNames[hours.dayOfWeek]);
+  return acc;
+}, {} as Record<string, string[]>);
+---
+
+<section class="card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title text-2xl mb-4">アクセス情報</h2>
+
+    <div class="space-y-4">
+      <!-- 住所 -->
+      <div class="flex items-start gap-3">
+        <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div>
+          <p class="font-semibold mb-1">住所</p>
+          <p class="text-base-content/80">{studioInfo.address}</p>
+        </div>
+      </div>
+
+      <!-- 最寄り駅 -->
+      <div class="flex items-start gap-3">
+        <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div>
+          <p class="font-semibold mb-1">最寄り駅</p>
+          <p class="text-base-content/80">
+            {studioInfo.nearestStation}より徒歩{studioInfo.walkingTime}分
+          </p>
+        </div>
+      </div>
+
+      <!-- 電話番号 -->
+      <div class="flex items-start gap-3">
+        <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div>
+          <p class="font-semibold mb-1">電話番号</p>
+          <a
+            href={`tel:${studioInfo.phone}`}
+            class="text-base-content/80 hover:text-primary transition-colors"
+            aria-label="電話をかける"
+          >
+            {studioInfo.phone}
+          </a>
+        </div>
+      </div>
+
+      <!-- メールアドレス -->
+      <div class="flex items-start gap-3">
+        <Mail className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div>
+          <p class="font-semibold mb-1">メールアドレス</p>
+          <a
+            href={`mailto:${studioInfo.email}`}
+            class="text-base-content/80 hover:text-primary transition-colors break-all"
+            aria-label="メールを送る"
+          >
+            {studioInfo.email}
+          </a>
+        </div>
+      </div>
+
+      <!-- 営業時間 -->
+      <div class="flex items-start gap-3">
+        <Clock className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div class="flex-1">
+          <p class="font-semibold mb-1">営業時間</p>
+          <div class="space-y-1">
+            {Object.entries(groupedHours).map(([timeRange, days]) => {
+              const [open, close] = timeRange.split('-');
+              return (
+                <p class="text-base-content/80">
+                  {days.join('・')}: {open} - {close}
+                </p>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <!-- 定休日 -->
+      <div class="flex items-start gap-3">
+        <Calendar className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+        <div>
+          <p class="font-semibold mb-1">定休日</p>
+          <div class="text-base-content/80">
+            {studioInfo.closedDays.map((day, index) => (
+              <p key={index}>{day}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- 駐車場情報 -->
+      {studioInfo.parking && (
+        <div class="flex items-start gap-3">
+          <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+          <div>
+            <p class="font-semibold mb-1">駐車場</p>
+            <p class="text-base-content/80">
+              {studioInfo.parking.available
+                ? `あり (${studioInfo.parking.capacity}台)`
+                : '駐車場なし'}
+            </p>
+            {studioInfo.parking.fee && (
+              <p class="text-sm text-base-content/60 mt-1">
+                {studioInfo.parking.fee}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

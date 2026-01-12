@@ -1,0 +1,51 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  title,
+  subtitle,
+  ctaText = '体験レッスン予約',
+  ctaLink = '/contact'
+} = Astro.props;
+---
+
+<section class="hero min-h-screen relative">
+  <!-- LCP Image: Placeholder using CSS background -->
+  <div
+    class="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20"
+    role="img"
+    aria-label="ヨガスタジオの雰囲気"
+  ></div>
+
+  <div class="hero-overlay bg-opacity-40"></div>
+
+  <div class="hero-content text-center text-neutral-content relative z-10">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-5xl font-bold">{title}</h1>
+      <p class="mb-5 text-xl">{subtitle}</p>
+      <a href={ctaLink} class="btn btn-primary btn-lg">
+        {ctaText}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+</style>

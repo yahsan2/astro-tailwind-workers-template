@@ -1,0 +1,95 @@
+---
+import type { ScheduleSlot, Lesson, Instructor } from '../../types';
+
+interface Props {
+  schedule: ScheduleSlot[];
+  lessons: Lesson[];
+  instructors: Instructor[];
+}
+
+const { schedule, lessons, instructors } = Astro.props;
+
+// Helper functions to get lesson and instructor by ID
+const getLessonById = (id: string) => lessons.find(l => l.id === id);
+const getInstructorById = (id: string) => instructors.find(i => i.id === id);
+
+// Get all unique time slots (start times)
+const uniqueTimes = Array.from(new Set(schedule.map(s => s.startTime))).sort();
+
+// Days of week in order
+const daysOfWeek = [
+  { key: 'monday', label: '月曜日' },
+  { key: 'tuesday', label: '火曜日' },
+  { key: 'wednesday', label: '水曜日' },
+  { key: 'thursday', label: '木曜日' },
+  { key: 'friday', label: '金曜日' },
+  { key: 'saturday', label: '土曜日' },
+  { key: 'sunday', label: '日曜日' }
+];
+
+// Create a lookup map for faster access
+const scheduleMap = new Map<string, ScheduleSlot>();
+schedule.forEach(slot => {
+  const key = `${slot.dayOfWeek}-${slot.startTime}`;
+  scheduleMap.set(key, slot);
+});
+
+// Get schedule slot for a specific day and time
+const getSlot = (day: string, time: string): ScheduleSlot | undefined => {
+  return scheduleMap.get(`${day}-${time}`);
+};
+---
+
+<div class="hidden md:block overflow-x-auto">
+  <table class="table table-zebra w-full">
+    <thead>
+      <tr>
+        <th class="bg-base-200">時間</th>
+        {daysOfWeek.map(day => (
+          <th class="bg-base-200 text-center">{day.label}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {uniqueTimes.map(time => (
+        <tr>
+          <td class="font-semibold bg-base-100 whitespace-nowrap">{time}</td>
+          {daysOfWeek.map(day => {
+            const slot = getSlot(day.key, time);
+
+            if (!slot) {
+              return <td class="bg-base-50"></td>;
+            }
+
+            const lesson = getLessonById(slot.lessonId);
+            const instructor = getInstructorById(slot.instructorId);
+
+            return (
+              <td class="p-2">
+                <a
+                  href={`/lessons/${slot.lessonId}`}
+                  class="block hover:bg-base-200 p-2 rounded transition-colors"
+                >
+                  <div class="space-y-1">
+                    <div class="font-semibold text-sm line-clamp-2">
+                      {lesson?.name || slot.lessonId}
+                    </div>
+                    <div class="text-xs text-base-content/70">
+                      {instructor?.name || slot.instructorId}
+                    </div>
+                    <div class="text-xs text-base-content/60">
+                      {slot.startTime} - {slot.endTime}
+                    </div>
+                    <div class="badge badge-sm badge-outline">
+                      定員 {slot.capacity}名
+                    </div>
+                  </div>
+                </a>
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,46 @@
+---
+// LocalBusiness Schema for SEO (JSON-LD)
+const studioData = {
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  "name": "Yoga Studio Sample",
+  "description": "ヨガ・ピラティススタジオ",
+  "url": Astro.site,
+  "telephone": "+81-3-1234-5678",
+  "email": "info@yoga-studio.example.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Sample Street 1-2-3",
+    "addressLocality": "Tokyo",
+    "addressRegion": "Tokyo",
+    "postalCode": "100-0001",
+    "addressCountry": "JP"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "35.6812",
+    "longitude": "139.7671"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "07:00",
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday", "Sunday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  ],
+  "priceRange": "¥¥",
+  "image": [
+    `${Astro.site}images/studio-exterior.jpg`,
+    `${Astro.site}images/studio-interior.jpg`
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(studioData)} />

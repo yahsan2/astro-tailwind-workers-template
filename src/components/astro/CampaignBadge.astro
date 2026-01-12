@@ -1,0 +1,63 @@
+---
+import { Sparkles } from 'lucide-react';
+
+interface Props {
+  text: string;
+  period?: string;
+  discount?: number;
+  variant?: 'primary' | 'secondary' | 'accent';
+}
+
+const {
+  text,
+  period,
+  discount,
+  variant = 'primary',
+} = Astro.props;
+---
+
+<div
+  class={`alert alert-${variant} shadow-lg`}
+  role="alert"
+  data-testid="campaign-badge"
+>
+  <Sparkles className="w-6 h-6" />
+
+  <div class="flex-1">
+    <h3 class="font-bold text-lg" data-testid="campaign-text">
+      {discount && (
+        <span class="badge badge-warning mr-2" data-testid="campaign-discount">
+          {discount}% OFF
+        </span>
+      )}
+      {text}
+    </h3>
+
+    {period && (
+      <div class="text-sm opacity-90 mt-1" data-testid="campaign-period">
+        {period}
+      </div>
+    )}
+  </div>
+
+  <div class="flex-none">
+    <button class="btn btn-sm" aria-label="キャンペーン詳細を見る">
+      詳細を見る
+    </button>
+  </div>
+</div>
+
+<style>
+  .alert {
+    animation: pulse-subtle 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.95;
+    }
+  }
+</style>

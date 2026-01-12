@@ -1,16 +1,51 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
+const pageTitle = 'ホーム';
+const pageDescription = 'Astro + Tailwind CSS + DaisyUI テンプレートサイト';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <!-- Hero Section -->
+  <section class="hero min-h-screen bg-gradient-to-r from-primary to-secondary">
+    <div class="hero-content text-center text-white">
+      <div class="max-w-md">
+        <h1 class="text-5xl font-bold">Hello, World!</h1>
+        <p class="py-6">
+          Astro + React + Tailwind CSS v4 + DaisyUI のテンプレートです。
+          このページを編集して、あなたのサイトを作りましょう。
+        </p>
+        <button class="btn btn-lg bg-white text-primary hover:bg-base-100">
+          はじめる
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-base-100">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card bg-base-200 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">Astro 5</h3>
+            <p>高速なサイト生成とアイランドアーキテクチャ</p>
+          </div>
+        </div>
+        <div class="card bg-base-200 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">Tailwind CSS v4</h3>
+            <p>ユーティリティファーストのCSSフレームワーク</p>
+          </div>
+        </div>
+        <div class="card bg-base-200 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">DaisyUI</h3>
+            <p>美しいコンポーネントライブラリ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

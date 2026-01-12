@@ -1,0 +1,50 @@
+---
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+  colorClass?: string;
+}
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+---
+
+<section class="container mx-auto py-16 px-4">
+  <h2 class="text-3xl font-bold text-center mb-12">スタジオの特徴</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    {
+      features.map((feature) => (
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body items-center text-center">
+            <div
+              class={`w-16 h-16 rounded-full ${feature.colorClass || 'bg-primary'} flex items-center justify-center mb-4`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d={feature.icon}
+                />
+              </svg>
+            </div>
+            <h3 class="card-title text-xl">{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

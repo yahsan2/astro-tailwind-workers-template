@@ -1,0 +1,75 @@
+---
+import type { PricingPlan } from '../../types';
+import { Check } from 'lucide-react';
+
+interface Props {
+  plan: PricingPlan;
+}
+
+const { plan } = Astro.props;
+
+// Format price
+const formattedPrice = `¥${plan.monthlyPrice.toLocaleString('ja-JP')}`;
+
+// Format sessions
+const sessionsText = plan.sessionsPerMonth === 'unlimited'
+  ? '無制限'
+  : `月${plan.sessionsPerMonth}回`;
+---
+
+<div
+  class={`card bg-base-100 shadow-xl ${plan.isRecommended ? 'border-2 border-primary' : ''}`}
+  data-testid={`plan-card-${plan.id}`}
+>
+  {plan.isRecommended && (
+    <div class="badge badge-primary absolute -top-3 right-4">
+      おすすめ
+    </div>
+  )}
+
+  <div class="card-body">
+    <h3 class="card-title text-2xl" data-testid="plan-name">
+      {plan.name}
+    </h3>
+
+    <div class="my-4">
+      <div class="text-4xl font-bold text-primary" data-testid="plan-price">
+        {formattedPrice}
+      </div>
+      <div class="text-sm text-base-content/70">/ 月</div>
+    </div>
+
+    <div class="mb-4">
+      <div class="badge badge-outline badge-lg" data-testid="plan-sessions">
+        {sessionsText}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <ul class="space-y-2 mb-4" data-testid="plan-features">
+      {plan.features.map((feature) => (
+        <li class="flex items-start gap-2">
+          <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+          <span class="text-sm">{feature}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="card-actions justify-end mt-4">
+      <button
+        class="btn btn-primary w-full"
+        data-testid="plan-cta"
+        aria-label={`${plan.name}を予約する`}
+      >
+        このプランで予約する
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    position: relative;
+  }
+</style>

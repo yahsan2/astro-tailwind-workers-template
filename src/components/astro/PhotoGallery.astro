@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  photos: string[];
+}
+
+const { photos } = Astro.props;
+
+// 写真のラベル（インデックスベース）
+const getPhotoLabel = (index: number): string => {
+  const labels = [
+    'スタジオ外観',
+    'スタジオ内観1',
+    'スタジオ内観2',
+    '受付エリア',
+    'ロッカールーム',
+    'その他の施設'
+  ];
+  return labels[index] || `スタジオ写真${index + 1}`;
+};
+---
+
+<div class="photo-gallery">
+  <h3 class="text-xl font-semibold mb-4">施設写真</h3>
+
+  {photos.length > 0 ? (
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {photos.map((photo, index) => (
+        <div class="aspect-video overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow">
+          <img
+            src={photo}
+            alt={getPhotoLabel(index)}
+            class="w-full h-full object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p class="text-base-content/60">現在、写真を準備中です。</p>
+  )}
+</div>
+
+<style>
+  .photo-gallery img {
+    transition: transform 0.3s ease;
+  }
+
+  .photo-gallery img:hover {
+    transform: scale(1.05);
+  }
+</style>

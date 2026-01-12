@@ -1,0 +1,71 @@
+---
+// Header with WCAG 2.1 AA compliant navigation
+---
+
+<header class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <!-- Mobile Menu Button -->
+      <label
+        for="mobile-drawer"
+        tabindex="0"
+        class="btn btn-ghost lg:hidden"
+        aria-label="メニューを開く"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </label>
+    </div>
+    <a href="/" class="btn btn-ghost text-xl" aria-label="ホームページへ戻る">
+      Yoga Studio
+    </a>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <nav class="navbar-center hidden lg:flex" aria-label="メインナビゲーション">
+    <ul class="menu menu-horizontal px-1">
+      <li><a href="/lessons" aria-label="レッスン情報">レッスン</a></li>
+      <li><a href="/schedule" aria-label="スケジュール">スケジュール</a></li>
+      <li><a href="/instructors" aria-label="インストラクター紹介">インストラクター</a></li>
+      <li><a href="/pricing" aria-label="料金プラン">料金</a></li>
+      <li><a href="/access" aria-label="アクセス情報">アクセス</a></li>
+    </ul>
+  </nav>
+
+  <div class="navbar-end">
+    <a href="/contact" class="btn btn-primary" aria-label="お問い合わせ・体験予約">
+      体験予約
+    </a>
+  </div>
+</header>
+
+<!-- Mobile Drawer (DaisyUI Drawer Component) -->
+<div class="drawer lg:hidden">
+  <input id="mobile-drawer" type="checkbox" class="drawer-toggle" aria-label="モバイルメニュー" />
+  <div class="drawer-side z-50">
+    <label for="mobile-drawer" class="drawer-overlay" aria-label="メニューを閉じる"></label>
+    <nav class="menu p-4 w-80 min-h-full bg-base-200" aria-label="モバイルナビゲーション">
+      <ul>
+        <li><a href="/lessons" aria-label="レッスン情報">レッスン</a></li>
+        <li><a href="/schedule" aria-label="スケジュール">スケジュール</a></li>
+        <li><a href="/instructors" aria-label="インストラクター紹介">インストラクター</a></li>
+        <li><a href="/pricing" aria-label="料金プラン">料金</a></li>
+        <li><a href="/access" aria-label="アクセス情報">アクセス</a></li>
+        <li><a href="/contact" aria-label="お問い合わせ・体験予約">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>

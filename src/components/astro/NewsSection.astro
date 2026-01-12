@@ -1,0 +1,78 @@
+---
+import type { NewsItem } from '../types';
+
+interface Props {
+  newsItems: NewsItem[];
+  limit?: number;
+}
+
+const { newsItems, limit = 5 } = Astro.props;
+
+// Display only the specified number of items
+const displayItems = newsItems.slice(0, limit);
+
+// Format date to YYYY.MM.DD
+const formatDate = (dateString: string) => {
+  return dateString.replace(/-/g, '.');
+};
+
+// Get badge color based on category
+const getBadgeClass = (category: string) => {
+  switch (category) {
+    case 'campaign':
+      return 'badge-primary';
+    case 'event':
+      return 'badge-secondary';
+    case 'news':
+    default:
+      return 'badge-accent';
+  }
+};
+
+// Get category label in Japanese
+const getCategoryLabel = (category: string) => {
+  switch (category) {
+    case 'campaign':
+      return 'キャンペーン';
+    case 'event':
+      return 'イベント';
+    case 'news':
+    default:
+      return '新着';
+  }
+};
+---
+
+<section class="bg-base-200 py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12">お知らせ</h2>
+
+    <div class="space-y-4 max-w-3xl mx-auto">
+      {
+        displayItems.map((item) => (
+          <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow">
+            <div class="card-body">
+              <div class="flex items-center gap-4">
+                <div class={`badge ${getBadgeClass(item.category)}`}>
+                  {getCategoryLabel(item.category)}
+                </div>
+                <time datetime={item.date} class="text-sm text-base-content/70">
+                  {formatDate(item.date)}
+                </time>
+              </div>
+              <h3 class="card-title text-lg">{item.title}</h3>
+              <p class="text-base-content/80">{item.content}</p>
+              {item.link && (
+                <div class="card-actions justify-end mt-2">
+                  <a href={item.link} class="link link-primary text-sm">
+                    詳細を見る
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

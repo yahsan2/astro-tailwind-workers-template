@@ -1,0 +1,116 @@
+---
+/**
+ * LessonCard.astro
+ *
+ * Intent: レッスン情報のカード表示
+ * Requirements: 2.1, 2.4
+ *
+ * Responsibilities:
+ * - レッスン名、難易度、所要時間の表示
+ * - イメージ画像の表示
+ * - レッスン詳細へのリンク
+ * - DaisyUIカードコンポーネントの活用
+ */
+
+import { Image } from 'astro:assets';
+import type { Lesson } from '../../types';
+
+interface Props {
+  lesson: {
+    id: string;
+    name: string;
+    difficulty: 'beginner' | 'intermediate' | 'advanced';
+    duration: number;
+    category: string;
+    imageUrl?: string;
+  };
+}
+
+const { lesson } = Astro.props;
+
+// 難易度の日本語変換
+const difficultyLabels = {
+  beginner: '初級',
+  intermediate: '中級',
+  advanced: '上級'
+};
+
+// 難易度に応じたバッジカラー
+const difficultyColors = {
+  beginner: 'badge-success',
+  intermediate: 'badge-warning',
+  advanced: 'badge-error'
+};
+
+const difficultyLabel = difficultyLabels[lesson.difficulty];
+const difficultyColor = difficultyColors[lesson.difficulty];
+
+// デフォルト画像のパス
+const defaultImageUrl = '/images/lessons/default.jpg';
+const imageUrl = lesson.imageUrl || defaultImageUrl;
+---
+
+<article class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+  <a href={`/lessons/${lesson.id}`} class="block">
+    {/* 画像セクション */}
+    <figure class="relative aspect-video overflow-hidden">
+      <img
+        src={imageUrl}
+        alt={`${lesson.name}のイメージ画像`}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </figure>
+
+    {/* コンテンツセクション */}
+    <div class="card-body">
+      {/* レッスン名 */}
+      <h3 class="card-title text-lg">
+        {lesson.name}
+      </h3>
+
+      {/* 難易度と所要時間のバッジ */}
+      <div class="flex gap-2 mt-2">
+        <span class={`badge ${difficultyColor} badge-sm`}>
+          {difficultyLabel}
+        </span>
+        <span class="badge badge-outline badge-sm">
+          {lesson.duration}分
+        </span>
+      </div>
+
+      {/* カテゴリバッジ（オプション） */}
+      <div class="mt-2">
+        <span class="badge badge-ghost badge-sm">
+          {lesson.category}
+        </span>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  /* カード全体のホバーエフェクト */
+  .card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* 画像のホバー効果 */
+  .card:hover figure img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
+
+  /* タイトルのホバー効果 */
+  .card:hover .card-title {
+    color: var(--primary);
+    transition: color 0.2s ease;
+  }
+
+  /* アクセシビリティ: フォーカス状態 */
+  .card a:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+</style>

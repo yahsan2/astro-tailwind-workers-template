@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/images/og-image.jpg',
+  canonicalURL = Astro.url.href
+} = Astro.props;
+
+const siteTitle = title ? `${title} | Yoga Studio` : 'Yoga Studio';
+---
+
+<!-- SEO Meta Tags -->
+<title>{siteTitle}</title>
+<meta name="description" content={description} />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={siteTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(ogImage, Astro.site)} />
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={siteTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />

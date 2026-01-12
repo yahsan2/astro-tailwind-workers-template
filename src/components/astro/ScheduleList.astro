@@ -1,0 +1,144 @@
+---
+import type { ScheduleSlot, Lesson, Instructor, DayOfWeek } from '../../types';
+
+interface Props {
+  schedule: ScheduleSlot[];
+  lessons: Lesson[];
+  instructors: Instructor[];
+}
+
+const { schedule, lessons, instructors } = Astro.props;
+
+// Helper functions
+const getLessonById = (id: string) => lessons.find(l => l.id === id);
+const getInstructorById = (id: string) => instructors.find(i => i.id === id);
+
+// Days of week configuration
+const daysOfWeek: { key: DayOfWeek; label: string; short: string }[] = [
+  { key: 'monday', label: '月曜日', short: '月' },
+  { key: 'tuesday', label: '火曜日', short: '火' },
+  { key: 'wednesday', label: '水曜日', short: '水' },
+  { key: 'thursday', label: '木曜日', short: '木' },
+  { key: 'friday', label: '金曜日', short: '金' },
+  { key: 'saturday', label: '土曜日', short: '土' },
+  { key: 'sunday', label: '日曜日', short: '日' }
+];
+
+// Group schedule by day
+const scheduleByDay = daysOfWeek.map(day => ({
+  ...day,
+  slots: schedule
+    .filter(slot => slot.dayOfWeek === day.key)
+    .sort((a, b) => a.startTime.localeCompare(b.startTime))
+}));
+---
+
+<div class="md:hidden">
+  <!-- Day Tabs Navigation -->
+  <div role="tablist" class="tabs tabs-boxed mb-4 overflow-x-auto flex-nowrap">
+    {daysOfWeek.map((day, index) => (
+      <input
+        type="radio"
+        name="day_tabs"
+        role="tab"
+        class="tab whitespace-nowrap"
+        aria-label={day.label}
+        checked={index === 0}
+        data-day={day.key}
+      />
+    ))}
+  </div>
+
+  <!-- Schedule Content for Each Day -->
+  {scheduleByDay.map((day, dayIndex) => (
+    <div
+      role="tabpanel"
+      class="tab-content"
+      data-day={day.key}
+      style={dayIndex === 0 ? 'display: block;' : 'display: none;'}
+    >
+      {day.slots.length === 0 ? (
+        <div class="text-center py-8 text-base-content/60">
+          この曜日にはレッスンがありません
+        </div>
+      ) : (
+        <div class="space-y-3">
+          {day.slots.map(slot => {
+            const lesson = getLessonById(slot.lessonId);
+            const instructor = getInstructorById(slot.instructorId);
+
+            return (
+              <a
+                href={`/lessons/${slot.lessonId}`}
+                class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="card-body p-4">
+                  <div class="flex justify-between items-start gap-2">
+                    <div class="flex-1">
+                      <h3 class="card-title text-base mb-1">
+                        {lesson?.name || slot.lessonId}
+                      </h3>
+                      <p class="text-sm text-base-content/70 mb-2">
+                        {instructor?.name || slot.instructorId}
+                      </p>
+                      <div class="flex gap-2 flex-wrap">
+                        <div class="badge badge-outline text-xs">
+                          {slot.startTime} - {slot.endTime}
+                        </div>
+                        <div class="badge badge-outline text-xs">
+                          定員 {slot.capacity}名
+                        </div>
+                      </div>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 text-base-content/40 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
+<script>
+  // Tab switching logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabInputs = document.querySelectorAll<HTMLInputElement>('input[name="day_tabs"]');
+    const tabPanels = document.querySelectorAll<HTMLDivElement>('.tab-content');
+
+    tabInputs.forEach(input => {
+      input.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const selectedDay = target.dataset.day;
+
+        // Hide all panels
+        tabPanels.forEach(panel => {
+          panel.style.display = 'none';
+        });
+
+        // Show selected panel
+        const selectedPanel = document.querySelector<HTMLDivElement>(
+          `.tab-content[data-day="${selectedDay}"]`
+        );
+        if (selectedPanel) {
+          selectedPanel.style.display = 'block';
+        }
+      });
+    });
+  });
+</script>
